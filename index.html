@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Sustentabilidade</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__content">
+      <h1>Calculadora de Sustentabilidade</h1>
+      <p>Compare o retorno financeiro e o impacto ambiental de soluções solares e de reúso de água para seu projeto.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="form-section">
+      <h2>Informe os dados do projeto</h2>
+      <form id="sustentabilidade-form" novalidate>
+        <div class="grid">
+          <fieldset>
+            <legend>Energia Solar</legend>
+            <label for="custoSolar">Custo do investimento (R$)</label>
+            <input type="number" id="custoSolar" min="0" step="0.01" placeholder="Ex.: 25000" required>
+
+            <label for="geracaoSolar">Geração anual estimada (kWh)</label>
+            <input type="number" id="geracaoSolar" min="0" step="0.01" placeholder="Ex.: 4800" required>
+
+            <label for="tarifaSolar">Tarifa de energia (R$/kWh)</label>
+            <input type="number" id="tarifaSolar" min="0" step="0.01" placeholder="Ex.: 0.95" required>
+
+            <div class="fieldset__actions">
+              <button type="button" class="btn" id="calcularSolar">Calcular energia solar</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Reúso de Água</legend>
+            <label for="custoAgua">Custo do investimento (R$)</label>
+            <input type="number" id="custoAgua" min="0" step="0.01" placeholder="Ex.: 18000" required>
+
+            <label for="volumeAgua">Volume anual economizado (m³)</label>
+            <input type="number" id="volumeAgua" min="0" step="0.01" placeholder="Ex.: 600" required>
+
+            <label for="tarifaAgua">Tarifa de água + esgoto (R$/m³)</label>
+            <input type="number" id="tarifaAgua" min="0" step="0.01" placeholder="Ex.: 15.40" required>
+
+            <div class="fieldset__actions">
+              <button type="button" class="btn" id="calcularAgua">Calcular reúso de água</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Aeradores / Redutores de Vazão</legend>
+            <label for="vazaoAntiga">Vazão atual (L/min)</label>
+            <input type="number" id="vazaoAntiga" min="0" step="0.1" placeholder="Ex.: 12" required>
+
+            <label for="vazaoNova">Vazão com aerador (L/min)</label>
+            <input type="number" id="vazaoNova" min="0" step="0.1" placeholder="Ex.: 6" required>
+
+            <label for="minutosUso">Uso diário estimado (min)</label>
+            <input type="number" id="minutosUso" min="0" step="1" placeholder="Ex.: 45" required>
+
+            <label for="custoPeca">Custo total das peças (R$)</label>
+            <input type="number" id="custoPeca" min="0" step="0.01" placeholder="Ex.: 950" required>
+
+            <label for="tarifaAerador">Tarifa de água + esgoto (R$/m³)</label>
+            <input type="number" id="tarifaAerador" min="0" step="0.01" placeholder="Ex.: 15.40" required>
+
+            <div class="fieldset__actions">
+              <button type="button" class="btn" id="calcularAerador">Calcular aeradores</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Iluminação LED</legend>
+            <label for="wattsAntigo">Potência atual (W)</label>
+            <input type="number" id="wattsAntigo" min="0" step="1" placeholder="Ex.: 60" required>
+
+            <label for="wattsNovo">Potência LED (W)</label>
+            <input type="number" id="wattsNovo" min="0" step="1" placeholder="Ex.: 9" required>
+
+            <label for="quantidadeLampadas">Quantidade de lâmpadas</label>
+            <input type="number" id="quantidadeLampadas" min="0" step="1" placeholder="Ex.: 35" required>
+
+            <label for="horasUso">Uso diário estimado (h)</label>
+            <input type="number" id="horasUso" min="0" step="0.1" placeholder="Ex.: 8" required>
+
+            <label for="custoKit">Custo total do kit (R$)</label>
+            <input type="number" id="custoKit" min="0" step="0.01" placeholder="Ex.: 2800" required>
+
+            <label for="tarifaLed">Tarifa de energia (R$/kWh)</label>
+            <input type="number" id="tarifaLed" min="0" step="0.01" placeholder="Ex.: 0.95" required>
+
+            <div class="fieldset__actions">
+              <button type="button" class="btn" id="calcularLed">Calcular LED</button>
+            </div>
+          </fieldset>
+        </div>
+        <p class="form-note">*Valores de entrada podem ser ajustados conforme estudo preliminar ou dados históricos do cliente.</p>
+      </form>
+    </section>
+
+    <section class="results" aria-live="polite">
+      <h2>Resultados</h2>
+      <div class="grid">
+        <article class="card" id="resultado-solar">
+          <h3>Energia Solar</h3>
+          <p class="card__payback">Payback estimado: <strong id="paybackSolar">-</strong></p>
+          <p class="card__co2">CO₂ evitado por ano: <strong id="co2Solar">-</strong></p>
+        </article>
+        <article class="card" id="resultado-agua">
+          <h3>Reúso de Água</h3>
+          <p class="card__payback">Payback estimado: <strong id="paybackAgua">-</strong></p>
+          <p class="card__co2">CO₂ evitado por ano: <strong id="co2Agua">-</strong></p>
+        </article>
+        <article class="card" id="resultado-aerador">
+          <h3>Aeradores / Redutores</h3>
+          <p class="card__payback">Payback estimado: <strong id="paybackAerador">-</strong></p>
+          <p class="card__co2">Economia de água: <strong id="aguaAerador">-</strong></p>
+          <p class="card__economia">Economia financeira anual: <strong id="economiaAerador">-</strong></p>
+        </article>
+        <article class="card" id="resultado-led">
+          <h3>Iluminação LED</h3>
+          <p class="card__payback">Payback estimado: <strong id="paybackLed">-</strong></p>
+          <p class="card__co2">CO₂ evitado por ano: <strong id="co2Led">-</strong></p>
+          <p class="card__economia">Economia financeira anual: <strong id="economiaLed">-</strong></p>
+        </article>
+        <article class="card card--summary" id="equivalencia-arvores">
+          <h3>Equivalência Ambiental</h3>
+          <p class="card__co2">CO₂ total evitado: <strong id="co2Total">-</strong></p>
+          <p class="card__economia">Equivalente a: <strong id="arvoresEquivalencia">-</strong></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="insights">
+      <h2>Como interpretar</h2>
+      <ul>
+        <li>Payback indica em quantos anos o investimento se paga com a economia gerada.</li>
+        <li>CO₂ evitado usa fatores médios nacionais para estimar o impacto ambiental.</li>
+        <li>Reavalie as entradas com dados reais do cliente para relatórios personalizados.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Protótipo acadêmico &mdash; ADS PEX 2025</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
